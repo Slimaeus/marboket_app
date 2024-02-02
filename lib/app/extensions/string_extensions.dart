@@ -3,4 +3,9 @@ extension StringExtensions on String {
     // Replace spaces with hyphens and convert to lowercase
     return replaceAll(' ', '-').toLowerCase();
   }
+
+  String formatNumberWithCommas() {
+    final regex = RegExp(r'\B(?=(\d{3})+(?!\d))');
+    return replaceAll(regex, ',');
+  }
 }

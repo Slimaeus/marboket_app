@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:marboket_app/app/extensions/string_extensions.dart';
 import 'package:marboket_app/app/widgets/loading_indicator.dart';
 import 'package:marboket_app/products/models/product.dart';
 import 'package:marboket_app/products/stores/item_unit_store.dart';
@@ -72,10 +73,10 @@ class _ProductListScreenState extends State<ProductListScreen> {
               List<Product> products = productStore.items
                   .where((product) =>
                       product.name!.toLowerCase().contains(searchString) ||
-                      product.description != null &&
+                      (product.description != null &&
                           product.description!
                               .toLowerCase()
-                              .contains(searchString))
+                              .contains(searchString)))
                   .toList();
               products.sort((first, second) => first.name!
                   .toLowerCase()
@@ -95,7 +96,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                         //   width: 10,
                         // ),
                         Text(
-                          '${product.prices.first.pricePerUnit!.removeRedundantDecimal()} đồng / ${product.prices.first.unitAmount!.removeRedundantDecimal()}${product.prices.first.itemUnit?.alias ?? ' ${product.prices.first.itemUnit?.name}'}',
+                          '${product.prices.first.pricePerUnit!.removeRedundantDecimal().formatNumberWithCommas()} đồng / ${product.prices.first.unitAmount!.removeRedundantDecimal()}${product.prices.first.itemUnit?.alias ?? ' ${product.prices.first.itemUnit?.name}'}',
                           style: const TextStyle(fontSize: 12),
                         ),
                       ],

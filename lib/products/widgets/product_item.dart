@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marboket_app/app/extensions/double_extensions.dart';
+import 'package:marboket_app/app/extensions/string_extensions.dart';
 import 'package:marboket_app/products/models/photo.dart';
 import 'package:marboket_app/products/models/price.dart';
 import 'package:marboket_app/products/models/product.dart';
@@ -198,9 +199,9 @@ class _ProductItemState extends State<ProductItem> {
             children: [
               Text(widget.product.name ?? ''),
               widget.product.prices.isEmpty
-                  ? Text('')
+                  ? const Text('')
                   : Text(
-                      '${widget.product.prices.first.pricePerUnit!.removeRedundantDecimal()} đồng')
+                      '${widget.product.prices.first.pricePerUnit!.removeRedundantDecimal().formatNumberWithCommas()} đồng')
             ],
           ),
           subtitle: Row(
