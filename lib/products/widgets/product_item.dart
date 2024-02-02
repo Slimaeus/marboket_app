@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marboket_app/app/extensions/double_extensions.dart';
 import 'package:marboket_app/app/extensions/string_extensions.dart';
+import 'package:marboket_app/app/managers/route_manager_import.dart';
 import 'package:marboket_app/products/models/photo.dart';
 import 'package:marboket_app/products/models/price.dart';
 import 'package:marboket_app/products/models/product.dart';
@@ -69,106 +70,70 @@ class _ProductItemState extends State<ProductItem> {
             break;
           case DismissDirection.startToEnd:
             if (widget.product.id != null && widget.product.id!.isNotEmpty) {
-              productNameController.text = widget.product.name ?? '';
-              productDescriptionController.text =
-                  widget.product.description ?? '';
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      alignment: Alignment.center,
-                      title: const Text('Cập nhật sản phẩm'),
-                      content: SingleChildScrollView(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextFormField(
-                                decoration:
-                                    const InputDecoration(labelText: 'Tên'),
-                                validator: (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Cần nhập tên';
-                                  }
-                                  return null;
-                                },
-                                controller: productNameController,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              TextFormField(
-                                decoration:
-                                    const InputDecoration(labelText: 'Mô tả'),
-                                validator: (String? value) {
-                                  return null;
-                                },
-                                controller: productDescriptionController,
-                              ),
-                              // TextFormField(
-                              //   decoration: const InputDecoration(labelText: 'Giá'),
-                              //   validator: (String? value) {
-                              //     return null;
-                              //   },
-                              //   controller: productPriceController,
-                              // ),
-                              // TextFormField(
-                              //   decoration: const InputDecoration(labelText: 'Số lượng'),
-                              //   validator: (String? value) {
-                              //     return null;
-                              //   },
-                              //   controller: productAmountController,
-                              // ),
+              productStore.fetch(widget.product.id!).then((_) {
+                Navigator.pushNamed(context, RouteManager.productDetails);
+              });
+              // productNameController.text = widget.product.name ?? '';
+              // productDescriptionController.text =
+              //     widget.product.description ?? '';
+              // showDialog(
+              //     context: context,
+              //     builder: (context) {
+              //       return AlertDialog(
+              //         alignment: Alignment.center,
+              //         title: const Text('Cập nhật sản phẩm'),
+              //         content: SingleChildScrollView(
+              //           child: Column(
+              //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //               children: [
+              //                 TextFormField(
+              //                   decoration:
+              //                       const InputDecoration(labelText: 'Tên'),
+              //                   validator: (String? value) {
+              //                     if (value == null || value.isEmpty) {
+              //                       return 'Cần nhập tên';
+              //                     }
+              //                     return null;
+              //                   },
+              //                   controller: productNameController,
+              //                 ),
+              //                 const SizedBox(
+              //                   height: 10,
+              //                 ),
+              //                 TextFormField(
+              //                   decoration:
+              //                       const InputDecoration(labelText: 'Mô tả'),
+              //                   validator: (String? value) {
+              //                     return null;
+              //                   },
+              //                   controller: productDescriptionController,
+              //                 ),
 
-                              // Observer(builder: (context) {
-                              //   return DropdownButtonFormField<String>(
-                              //     decoration:
-                              //         const InputDecoration(labelText: 'Đơn vị'),
-                              //     value: selectedItemUnitId,
-                              //     onChanged: (String? value) {
-                              //       setState(() {
-                              //         selectedItemUnitId = value;
-                              //       });
-                              //     },
-                              //     items:
-                              //         itemUnitStore.list.map((ItemUnit itemUnit) {
-                              //       return DropdownMenuItem<String>(
-                              //         value: itemUnit.id.toString(),
-                              //         child: Text(itemUnit.name ?? ''),
-                              //       );
-                              //     }).toList(),
-                              //     validator: (String? value) {
-                              //       if (value == null || value.isEmpty) {
-                              //         return 'Cần chọn đơn vị';
-                              //       }
-                              //       return null;
-                              //     },
-                              //   );
-                              // }),
-                            ]),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Đóng dialog
-                          },
-                          child: const Text('Hủy'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            productStore.update(
-                                widget.product.id!,
-                                Product(
-                                  name: productNameController.text,
-                                  description:
-                                      productDescriptionController.text,
-                                ));
-                          },
-                          child: const Text('Cập nhật'),
-                        )
-                      ],
-                    );
-                  });
+              //               ]),
+              //         ),
+              //         actions: [
+              //           TextButton(
+              //             onPressed: () {
+              //               Navigator.of(context).pop(); // Đóng dialog
+              //             },
+              //             child: const Text('Hủy'),
+              //           ),
+              //           TextButton(
+              //             onPressed: () {
+              //               Navigator.of(context).pop();
+              //               productStore.update(
+              //                   widget.product.id!,
+              //                   Product(
+              //                     name: productNameController.text,
+              //                     description:
+              //                         productDescriptionController.text,
+              //                   ));
+              //             },
+              //             child: const Text('Cập nhật'),
+              //           )
+              //         ],
+              //       );
+              //     });
             }
             return false;
           default:

@@ -120,6 +120,14 @@ mixin _$ProductStore on ProductStoreBase, Store {
     });
   }
 
+  late final _$fetchAsyncAction =
+      AsyncAction('ProductStoreBase.fetch', context: context);
+
+  @override
+  Future<bool> fetch(String productId) {
+    return _$fetchAsyncAction.run(() => super.fetch(productId));
+  }
+
   late final _$fetchListAsyncAction =
       AsyncAction('ProductStoreBase.fetchList', context: context);
 

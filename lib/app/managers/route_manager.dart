@@ -15,9 +15,11 @@ class RouteManager {
 
   static String home = 'home';
   static String productList = 'product-list';
+  static String productDetails = 'product-details';
 
   static Map<String, Widget Function(BuildContext)> routes = {
     home: (context) => const HomeScreen(),
-    productList: (context) => const ProductListScreen()
+    productList: (context) => const ProductListScreen(),
+    productDetails: (context) => const ProductDetailsScreen()
   };
 }

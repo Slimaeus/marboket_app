@@ -43,6 +43,22 @@ abstract class ProductStoreBase with Store {
   }
 
   @action
+  Future<bool> fetch(String productId) async {
+    isSelectedFetching = true;
+    var response =
+        await _apiService.get<Product>('Products/$productId', (results) {
+      return Product.fromJson(results);
+    });
+    if (response.isSucceed && response.data != null) {
+      setSelected(response.data!);
+      isSelectedFetching = false;
+      return true;
+    }
+    isSelectedFetching = false;
+    return false;
+  }
+
+  @action
   Future<bool> fetchList() async {
     isListFetching = true;
     var response = await _apiService.get<PagedList>('Products', (results) {
