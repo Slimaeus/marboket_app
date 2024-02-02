@@ -193,9 +193,18 @@ class _ProductItemState extends State<ProductItem> {
         margin: const EdgeInsets.all(8),
         child: ListTile(
           leading: _buildProductImage(widget.product.photos),
-          title: Text(widget.product.name ?? ''),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(widget.product.name ?? ''),
+              widget.product.prices.isEmpty
+                  ? Text('')
+                  : Text(
+                      '${widget.product.prices.first.pricePerUnit!.removeRedundantDecimal()} đồng')
+            ],
+          ),
+          subtitle: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(widget.product.description ?? ''),
               _buildPriceList(widget.product.prices),
@@ -218,7 +227,7 @@ class _ProductItemState extends State<ProductItem> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: prices.map((price) {
         return Text(
-            '${price.pricePerUnit!.removeRedundantDecimal()} đồng / ${price.unitAmount!.removeRedundantDecimal()}${price.itemUnit?.alias ?? ' ${price.itemUnit?.name}'}');
+            '${price.unitAmount!.removeRedundantDecimal()}${price.itemUnit?.alias ?? ' ${price.itemUnit?.name}'}');
       }).toList(),
     );
   }
