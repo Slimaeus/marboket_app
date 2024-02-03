@@ -54,6 +54,9 @@ dependencies:
   # Google Fonts
   google_fonts: ^6.1.0
 
+  # Image
+  image_picker: ^1.0.7
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

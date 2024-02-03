@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:marboket_app/products/stores/product_store.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key});
@@ -28,7 +31,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       body: Container(),
       floatingActionButton: IconButton(
         icon: const Icon(Icons.add_a_photo),
-        onPressed: () {},
+        onPressed: () async {
+          final image =
+              await ImagePicker().pickImage(source: ImageSource.camera);
+          if (image == null) return;
+          final file = File(image.path);
+
+          productStore.addPhoto(productStore.item.id!, file);
+        },
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:marboket_app/app/models/paged_list.dart';
 import 'package:marboket_app/app/services/api_service.dart';
 import 'package:marboket_app/products/models/product.dart';
@@ -172,6 +174,24 @@ abstract class ProductStoreBase with Store {
     isUpdating = true;
     var response = await _apiService
         .delete<Product>('Products/$productId/Prices/$priceId', (results) {
+      return Product.fromJson(results);
+    });
+    final current = Map.from(item.toJson());
+    updateItem(productId, response.data!);
+    if (response.isSucceed && response.data != null) {
+      isUpdating = false;
+      return true;
+    }
+    updateItem(productId, Product.fromJson(current as Map<String, dynamic>));
+    isUpdating = false;
+    return false;
+  }
+
+  @action
+  Future<bool> addPhoto(String productId, File file) async {
+    isUpdating = true;
+    var response = await _apiService.uploadFile<Product>(
+        'Products/$productId/Photos', {}, 'file', file.path, file, (results) {
       return Product.fromJson(results);
     });
     final current = Map.from(item.toJson());

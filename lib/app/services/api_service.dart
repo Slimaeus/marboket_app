@@ -43,12 +43,14 @@ class ApiService {
       String filePath,
       File file,
       TResponse Function(dynamic json) fromJson,
-      {dynamic headers = const {}}) async {
+      {dynamic headers}) async {
     try {
       var request =
           http.MultipartRequest('POST', Uri.parse('$baseUrl$endpoint'));
 
-      request.headers.addAll(headers);
+      if (headers != null) {
+        request.headers.addAll(headers);
+      }
 
       request.fields.addAll(fields);
 
