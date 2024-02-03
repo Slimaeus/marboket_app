@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marboket_app/products/stores/product_store.dart';
+import 'package:marboket_app/products/widgets/product_item.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -24,6 +25,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(productStore.item.name!),
+      ),
+      body: Container(),
+      floatingActionButton: IconButton(
+        icon: const Icon(Icons.add_a_photo),
+        onPressed: () {},
       ),
     );
   }
