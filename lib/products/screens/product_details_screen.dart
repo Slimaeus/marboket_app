@@ -30,7 +30,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ),
       body: Container(),
       floatingActionButton: IconButton(
-        icon: const Icon(Icons.add_a_photo),
+        iconSize: MediaQuery.of(context).size.width * 0.11,
+        icon: const Icon(Icons.add_a_photo_rounded),
         onPressed: () async {
           final image =
               await ImagePicker().pickImage(source: ImageSource.camera);

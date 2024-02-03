@@ -122,6 +122,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
         ],
       ),
       floatingActionButton: IconButton(
+        iconSize: MediaQuery.of(context).size.width * 0.11,
         icon: const Icon(Icons.add),
         onPressed: () {
           showModalBottomSheet(
