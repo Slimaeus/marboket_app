@@ -24,4 +24,18 @@ extension DoubleExtensions on double {
 
     return result;
   }
+
+  String convertToShortFormat() {
+    if (this < 1000) {
+      return toString();
+    } else if (this < 1000000) {
+      final kValue = (this / 1000).toStringAsFixed(0);
+      final remainder = this % 1000;
+      return remainder == 0 ? '${kValue}k' : '$kValue.${remainder ~/ 100}k';
+    } else {
+      final mValue = (this / 1000000).toStringAsFixed(0);
+      final remainder = this % 1000000;
+      return remainder == 0 ? '${mValue}m' : '$mValue.${remainder ~/ 100000}m';
+    }
+  }
 }

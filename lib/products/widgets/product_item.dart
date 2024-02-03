@@ -181,17 +181,17 @@ class _ProductItemState extends State<ProductItem> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(widget.product.name ?? ''),
+              Text(widget.product.name?.truncate(20) ?? ''),
               widget.product.prices.isEmpty
                   ? const Text('')
                   : Text(
-                      '${widget.product.prices.first.pricePerUnit!.removeRedundantDecimal().formatNumberWithCommas()} đồng')
+                      '${widget.product.prices.first.pricePerUnit!.convertToShortFormat()} đồng')
             ],
           ),
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(widget.product.description ?? ''),
+              Text(widget.product.description?.truncate(20) ?? ''),
               _buildPriceList(widget.product.prices),
             ],
           ),

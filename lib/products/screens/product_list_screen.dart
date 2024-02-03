@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:marboket_app/app/extensions/string_extensions.dart';
 import 'package:marboket_app/app/widgets/loading_indicator.dart';
 import 'package:marboket_app/products/models/product.dart';
 import 'package:marboket_app/products/stores/item_unit_store.dart';
@@ -9,6 +8,7 @@ import 'package:marboket_app/products/widgets/product_create_form.dart';
 import 'package:marboket_app/products/widgets/product_item.dart';
 import 'package:provider/provider.dart';
 import 'package:marboket_app/app/extensions/double_extensions.dart';
+import 'package:marboket_app/app/extensions/string_extensions.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({
@@ -84,7 +84,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
               return products.map((product) => ListTile(
                     title: Row(
                       children: [
-                        Text(product.name!),
+                        Text(product.name?.truncate(27) ?? ''),
                         const SizedBox(
                           width: 10,
                         ),
@@ -96,7 +96,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                         //   width: 10,
                         // ),
                         Text(
-                          '${product.prices.first.pricePerUnit!.removeRedundantDecimal().formatNumberWithCommas()} đồng / ${product.prices.first.unitAmount!.removeRedundantDecimal()}${product.prices.first.itemUnit?.alias ?? ' ${product.prices.first.itemUnit?.name}'}',
+                          '${product.prices.first.pricePerUnit!.convertToShortFormat()} đồng / ${product.prices.first.unitAmount!.removeRedundantDecimal()}${product.prices.first.itemUnit?.alias ?? ' ${product.prices.first.itemUnit?.name}'}',
                           style: const TextStyle(fontSize: 12),
                         ),
                       ],
