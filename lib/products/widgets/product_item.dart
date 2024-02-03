@@ -65,7 +65,28 @@ class _ProductItemState extends State<ProductItem> {
         switch (direction) {
           case DismissDirection.endToStart:
             if (widget.product.id != null && widget.product.id!.isNotEmpty) {
-              return true;
+              return await showDialog(
+                  context: context,
+                  builder: (buildContext) => AlertDialog(
+                        alignment: Alignment.center,
+                        title: const Text('Xác nhận xóa'),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                productStore
+                                    .delete(widget.product.id!)
+                                    .then((_) {
+                                  Navigator.pop(buildContext, true);
+                                });
+                              },
+                              child: const Text('Xác nhận')),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(buildContext, false);
+                              },
+                              child: const Text('Hủy'))
+                        ],
+                      ));
             }
             break;
           case DismissDirection.startToEnd:
@@ -145,9 +166,7 @@ class _ProductItemState extends State<ProductItem> {
       onDismissed: (direction) {
         switch (direction) {
           case DismissDirection.endToStart:
-            if (widget.product.id != null && widget.product.id!.isNotEmpty) {
-              productStore.delete(widget.product.id!);
-            }
+            if (widget.product.id != null && widget.product.id!.isNotEmpty) {}
             break;
           default:
             break;
