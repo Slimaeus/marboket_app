@@ -69,7 +69,7 @@ class _ProductItemState extends State<ProductItem> {
                   context: context,
                   builder: (buildContext) => AlertDialog(
                         alignment: Alignment.center,
-                        title: const Text('Xác nhận xóa'),
+                        title: const Text('Bạn có thật sự muốn xóa?'),
                         actions: [
                           TextButton(
                               onPressed: () {
@@ -91,70 +91,66 @@ class _ProductItemState extends State<ProductItem> {
             break;
           case DismissDirection.startToEnd:
             if (widget.product.id != null && widget.product.id!.isNotEmpty) {
-              productStore.fetch(widget.product.id!).then((_) {
-                Navigator.pushNamed(context, RouteManager.productDetails);
-              });
-              // productNameController.text = widget.product.name ?? '';
-              // productDescriptionController.text =
-              //     widget.product.description ?? '';
-              // showDialog(
-              //     context: context,
-              //     builder: (context) {
-              //       return AlertDialog(
-              //         alignment: Alignment.center,
-              //         title: const Text('Cập nhật sản phẩm'),
-              //         content: SingleChildScrollView(
-              //           child: Column(
-              //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //               children: [
-              //                 TextFormField(
-              //                   decoration:
-              //                       const InputDecoration(labelText: 'Tên'),
-              //                   validator: (String? value) {
-              //                     if (value == null || value.isEmpty) {
-              //                       return 'Cần nhập tên';
-              //                     }
-              //                     return null;
-              //                   },
-              //                   controller: productNameController,
-              //                 ),
-              //                 const SizedBox(
-              //                   height: 10,
-              //                 ),
-              //                 TextFormField(
-              //                   decoration:
-              //                       const InputDecoration(labelText: 'Mô tả'),
-              //                   validator: (String? value) {
-              //                     return null;
-              //                   },
-              //                   controller: productDescriptionController,
-              //                 ),
-
-              //               ]),
-              //         ),
-              //         actions: [
-              //           TextButton(
-              //             onPressed: () {
-              //               Navigator.of(context).pop(); // Đóng dialog
-              //             },
-              //             child: const Text('Hủy'),
-              //           ),
-              //           TextButton(
-              //             onPressed: () {
-              //               Navigator.of(context).pop();
-              //               productStore.update(
-              //                   widget.product.id!,
-              //                   Product(
-              //                     name: productNameController.text,
-              //                     description:
-              //                         productDescriptionController.text,
-              //                   ));
-              //             },
-              //             child: const Text('Cập nhật'),
-              //           )
-              //         ],
-              //       );
-              //     });
+              productNameController.text = widget.product.name ?? '';
+              productDescriptionController.text =
+                  widget.product.description ?? '';
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      alignment: Alignment.center,
+                      title: const Text('Cập nhật sản phẩm'),
+                      content: SingleChildScrollView(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextFormField(
+                                decoration:
+                                    const InputDecoration(labelText: 'Tên'),
+                                validator: (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Cần nhập tên';
+                                  }
+                                  return null;
+                                },
+                                controller: productNameController,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                decoration:
+                                    const InputDecoration(labelText: 'Mô tả'),
+                                validator: (String? value) {
+                                  return null;
+                                },
+                                controller: productDescriptionController,
+                              ),
+                            ]),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Đóng dialog
+                          },
+                          child: const Text('Hủy'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            productStore.update(
+                                widget.product.id!,
+                                Product(
+                                  name: productNameController.text,
+                                  description:
+                                      productDescriptionController.text,
+                                ));
+                          },
+                          child: const Text('Cập nhật'),
+                        )
+                      ],
+                    );
+                  });
             }
             return false;
           default:
@@ -196,7 +192,9 @@ class _ProductItemState extends State<ProductItem> {
             ],
           ),
           onTap: () {
-            // Handle product tap
+            productStore.fetch(widget.product.id!).then((_) {
+              Navigator.pushNamed(context, RouteManager.productDetails);
+            });
           },
         ),
       ),
