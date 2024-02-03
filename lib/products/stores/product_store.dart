@@ -147,4 +147,41 @@ abstract class ProductStoreBase with Store {
     isDeleting = false;
     return false;
   }
+
+  @action
+  Future<bool> addPrice(
+      String productId, Map<String, dynamic> formValues) async {
+    isUpdating = true;
+    var response = await _apiService.post<Product>('Products/$productId/Prices',
+        (results) {
+      return Product.fromJson(results);
+    }, formValues);
+    final current = Map.from(item.toJson());
+    updateItem(productId, response.data!);
+    if (response.isSucceed && response.data != null) {
+      isUpdating = false;
+      return true;
+    }
+    updateItem(productId, Product.fromJson(current as Map<String, dynamic>));
+    isUpdating = false;
+    return false;
+  }
+
+  @action
+  Future<bool> removePrice(String productId, String priceId) async {
+    isUpdating = true;
+    var response = await _apiService
+        .delete<Product>('Products/$productId/Prices/$priceId', (results) {
+      return Product.fromJson(results);
+    });
+    final current = Map.from(item.toJson());
+    updateItem(productId, response.data!);
+    if (response.isSucceed && response.data != null) {
+      isUpdating = false;
+      return true;
+    }
+    updateItem(productId, Product.fromJson(current as Map<String, dynamic>));
+    isUpdating = false;
+    return false;
+  }
 }

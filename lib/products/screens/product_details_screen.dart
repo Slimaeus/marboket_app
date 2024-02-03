@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:marboket_app/products/stores/product_store.dart';
-import 'package:marboket_app/products/widgets/product_item.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {

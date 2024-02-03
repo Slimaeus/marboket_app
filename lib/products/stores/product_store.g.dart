@@ -160,6 +160,24 @@ mixin _$ProductStore on ProductStoreBase, Store {
     return _$deleteAsyncAction.run(() => super.delete(id));
   }
 
+  late final _$addPriceAsyncAction =
+      AsyncAction('ProductStoreBase.addPrice', context: context);
+
+  @override
+  Future<bool> addPrice(String productId, Map<String, dynamic> formValues) {
+    return _$addPriceAsyncAction
+        .run(() => super.addPrice(productId, formValues));
+  }
+
+  late final _$removePriceAsyncAction =
+      AsyncAction('ProductStoreBase.removePrice', context: context);
+
+  @override
+  Future<bool> removePrice(String productId, String priceId) {
+    return _$removePriceAsyncAction
+        .run(() => super.removePrice(productId, priceId));
+  }
+
   late final _$ProductStoreBaseActionController =
       ActionController(name: 'ProductStoreBase', context: context);
 
