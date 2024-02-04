@@ -26,10 +26,11 @@ class Product {
 
   Map<String, dynamic> toJson() => _$ProductToJson(this);
 
-  void update(Product product) {
+  Product update(Product product) {
     id = product.id ?? id;
     name = product.name ?? name;
     description = product.description ?? description;
     friendlyUrlName = product.friendlyUrlName ?? friendlyUrlName;
+    return this;
   }
 }

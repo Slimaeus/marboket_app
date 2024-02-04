@@ -27,6 +27,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(productStore.item.name!),
+        actions: [
+          if (productStore.item.photos.isNotEmpty)
+            IconButton(
+              iconSize: MediaQuery.of(context).size.width * 0.11,
+              icon: const Icon(Icons.no_photography),
+              onPressed: () async {
+                productStore.removePhoto(
+                    productStore.item.id!, productStore.item.photos.first.id!);
+              },
+            )
+        ],
       ),
       body: Container(),
       floatingActionButton: IconButton(

@@ -178,6 +178,23 @@ mixin _$ProductStore on ProductStoreBase, Store {
         .run(() => super.removePrice(productId, priceId));
   }
 
+  late final _$addPhotoAsyncAction =
+      AsyncAction('ProductStoreBase.addPhoto', context: context);
+
+  @override
+  Future<bool> addPhoto(String productId, File file) {
+    return _$addPhotoAsyncAction.run(() => super.addPhoto(productId, file));
+  }
+
+  late final _$removePhotoAsyncAction =
+      AsyncAction('ProductStoreBase.removePhoto', context: context);
+
+  @override
+  Future<bool> removePhoto(String productId, String photoId) {
+    return _$removePhotoAsyncAction
+        .run(() => super.removePhoto(productId, photoId));
+  }
+
   late final _$ProductStoreBaseActionController =
       ActionController(name: 'ProductStoreBase', context: context);
 

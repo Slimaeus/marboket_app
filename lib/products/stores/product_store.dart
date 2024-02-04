@@ -68,8 +68,9 @@ abstract class ProductStoreBase with Store {
       return pagedList;
     });
     if (response.isSucceed && response.data != null) {
-      items = ObservableList.of(
-          response.data!.getItemList((json) => Product.fromJson(json)));
+      final list = response.data!.getItemList((json) => Product.fromJson(json));
+      list.sort((a, b) => a.name!.compareTo(b.name!));
+      items = ObservableList.of(list);
       isListFetching = false;
       return true;
     }
@@ -102,7 +103,7 @@ abstract class ProductStoreBase with Store {
   updateItem(String id, Product formValues) {
     if (item.id != null && item.id!.isNotEmpty) {
       if (id == item.id) {
-        item.update(formValues);
+        item = item.update(formValues);
       }
     }
     int index = items.indexWhere((e) => e.id == id);
@@ -192,6 +193,25 @@ abstract class ProductStoreBase with Store {
     isUpdating = true;
     var response = await _apiService.uploadFile<Product>(
         'Products/$productId/Photos', {}, 'file', file.path, file, (results) {
+      return Product.fromJson(results);
+    });
+    final current = Map.from(item.toJson());
+    updateItem(productId, response.data!);
+    if (response.isSucceed && response.data != null) {
+      isUpdating = false;
+      return true;
+    }
+    updateItem(productId, Product.fromJson(current as Map<String, dynamic>));
+    isUpdating = false;
+    return false;
+  }
+
+  @action
+  Future<bool> removePhoto(String productId, String photoId) async {
+    isUpdating = true;
+    var encodedPhotoId = Uri.encodeComponent(photoId);
+    var response =
+        await _apiService.delete<Product>('Photos/$encodedPhotoId', (results) {
       return Product.fromJson(results);
     });
     final current = Map.from(item.toJson());
