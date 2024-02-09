@@ -16,6 +16,9 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late ProductStore productStore;
+  final priceController = TextEditingController();
+  final priceAmountController = TextEditingController();
+  String? selectedUnitId;
 
   @override
   void initState() {
@@ -106,6 +109,74 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   color: price.isActive != null && price.isActive!
                       ? Colors.green
                       : Colors.red),
+            ),
+            trailing: ElevatedButton(
+              onPressed: () {
+                priceController.text =
+                    price.pricePerUnit!.removeRedundantDecimal();
+                priceAmountController.text =
+                    price.unitAmount!.removeRedundantDecimal();
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        alignment: Alignment.center,
+                        title: const Text('Cập nhật sản phẩm'),
+                        content: SingleChildScrollView(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextFormField(
+                                  decoration:
+                                      const InputDecoration(labelText: 'Giá'),
+                                  validator: (String? value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Cần nhập giá';
+                                    }
+                                    return null;
+                                  },
+                                  controller: priceController,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                TextFormField(
+                                  decoration: const InputDecoration(
+                                      labelText: 'Số lượng'),
+                                  validator: (String? value) {
+                                    return null;
+                                  },
+                                  controller: priceAmountController,
+                                ),
+                              ]),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Đóng dialog
+                            },
+                            child: const Text('Hủy'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              // productStore.update(
+                              //     widget.product.id!,
+                              //     Product(
+                              //       name: productNameController.text,
+                              //       description:
+                              //           productDescriptionController.text,
+                              //     ));
+                            },
+                            child: const Text('Cập nhật'),
+                          )
+                        ],
+                      );
+                    });
+              },
+              child: const Text(
+                'Cập nhật',
+              ),
             ),
           );
         }).toList(),
