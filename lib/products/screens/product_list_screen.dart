@@ -84,7 +84,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
               return products.map((product) => ListTile(
                     title: Row(
                       children: [
-                        Text(product.name?.truncate(27) ?? ''),
+                        Text(product.name?.truncate(24) ?? ''),
                         const SizedBox(
                           width: 10,
                         ),
